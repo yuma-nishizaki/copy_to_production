@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{A data copy library for rails from staging to production }
   spec.description   = %q{You can copy data from rails staging environment to production. You can even copy 'Papercliped' model with its attachments.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/yuma-nishizaki/copy_to_production"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
