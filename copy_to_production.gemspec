@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Yuma Nishizaki"]
   spec.email         = ["yuma.nishizaki@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = %q{A data copy library for rails from staging to production }
+  spec.description   = %q{You can copy data from rails staging environment to production. You can even copy 'Papercliped' model with its attachments.}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
@@ -28,7 +28,17 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rails"
-  spec.add_development_dependency "paperclip"
+  spec.add_development_dependency "paperclip"  
+  spec.add_development_dependency 'rails', '>= 4.0.0'
+  spec.add_development_dependency 'rspec', '~> 3.1.0'
+  spec.add_development_dependency 'rspec-rails', '~> 3.1.0'
+  spec.add_development_dependency "rails-erd"
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'pry-byebug'
+  spec.add_development_dependency 'railroady'
+  spec.add_development_dependency 'rspec-activemodel-mocks'
+  spec.add_development_dependency 'database_cleaner'
+  spec.add_development_dependency 'pg'  
+  spec.add_development_dependency "factory_girl_rails", "~> 4.0"
+  spec.add_development_dependency "sqlite3"
 end

@@ -29,7 +29,7 @@ module CopyToProduction
       end
 
       with_production_database do
-        with_production_attachment_settings(objects_to_be_copied.first) do
+        with_production_attachment_settings(objects_to_be_copied) do
           save_objects(objects_to_be_copied, images_to_be_copied)
         end
       end
@@ -60,33 +60,23 @@ module CopyToProduction
       ActiveRecord::Base.establish_connection(original_config)# back to original
     end
   
-    def with_production_attachment_settings(object)#TODO:objectsで受けてすべてのobjectsに対して設定変更する必要あり
-      object_class = object.class
-      object_class_has_attached_file = object_class.respond_to?("attachment_definitions")
-      #change attachment settings to prodution
-      if object_class_has_attached_file
-        original_attachment_config = object_class.attachment_definitions
-        paperclip_column_names = get_paperclip_column_names(object)
-        paperclip_column_names.each do |item|
-          object_class.has_attached_file item.to_sym, @has_attached_file_hash
-        end
+    def with_production_attachment_settings(objects)#TODO:objectsで受けてすべてのobjectsに対して設定変更する必要あり
+      papercliped_classes = objects.select{|object| object.class.respond_to?("attachment_definitions")}.map {|object| PaperclipedClass.new(object.class, @has_attached_file_hash)}
+      papercliped_classes.each do |papercliped_class|
+        papercliped_class.change_attachment_settings
       end
       yield
     ensure
-      #make attachment settings back to original
-      if object_class_has_attached_file
-        paperclip_column_names.each do |item|
-          item_sym = item.to_sym
-          style_hash = original_attachment_config.fetch(item_sym)
-          object_class.has_attached_file item_sym, style_hash
-        end
-      end
+      papercliped_classes.each do |papercliped_class|
+        papercliped_class.back_attachment_settings_to_original
+      end      
     end
     
     class PaperclipedClass
-      def initialize(object)
-        @class = object.class
+      def initialize(my_class, has_attached_file_hash)
+        @class = my_class
         @original_attachment_definitions = @class.attachment_definitions
+        @has_attached_file_hash = has_attached_file_hash
       end
       
       def change_attachment_settings
